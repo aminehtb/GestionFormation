@@ -19,7 +19,7 @@
     <meta name="author" content="">
     <meta name="keywords" content="MediaCenter, Template, eCommerce">
     <meta name="robots" content="all">
-    <title>Hexino premium HTML5 & CSS3 Template</title>
+    <title>${title}</title>
     <jsp:include page="styles.jsp"/>
   </head>
   <body class="cnt-home">
@@ -143,7 +143,7 @@
     <form method="POST" action="home">
     <div class="col col-sm-8 col-lg-8">
       <div class="product-info">
-        <h3 class="name"><a href="detail.html">${formations.get(i-1).getNom()}</a></h3>
+        <h3 class="name"><a href="detail?pk=${formations.get(i-1).getId()}">${formations.get(i-1).getNom()}</a></h3>
         <div class="rating rateit-small"></div>
         <div class="product-price"> 
           <span class="price">${formations.get(i-1).getPrice()} DT</span>

@@ -95,8 +95,9 @@ public class home extends HttpServlet {
            
         }
         //setting all attribute 
+        request.setAttribute("title", "Home | Gestion formation");
         request.setAttribute("formations", formations);
-        request.setAttribute("categories", catDB.findAll());
+        request.getSession().setAttribute("categories", catDB.findAll());
         request.setAttribute("keywords", keywords_list);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }

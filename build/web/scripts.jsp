@@ -29,12 +29,14 @@
 	<!-- For demo purposes – can be removed on production : End -->
         
         <script src="assets/iCheck/icheck.min.js"></script>
-        <script>
-          $(function () {
-            $('input').iCheck({
-              checkboxClass: 'icheckbox_square-green',
-              radioClass: 'iradio_square-green',
-              increaseArea: '20%' // optional
-            });
-          });
-        </script>
+
+
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: "icheckbox_square-green",
+      radioClass: 'iradio_square-green',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>
