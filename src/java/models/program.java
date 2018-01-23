@@ -11,27 +11,34 @@ package models;
  */
 public class program {
 
-    private int id,formation_id;
+    private int id, formation_id;
     private String titre, du, au, tache;
 
     public program() {
     }
 
-    public program(String nom, String du, String au, String tache,int formation_id) {
+
+    public program(String nom, String du, String au, String tache, int formation_id) {
         this.titre = nom;
         this.du = du;
         this.au = au;
         this.tache = tache;
-        this.formation_id=formation_id;
+        this.formation_id = formation_id;
     }
 
-    public program(int id, String nom, String du, String au, String tache,int formation_id) {
+    public program(int id, String nom, String du, String au, String tache, int formation_id) {
         this.id = id;
         this.titre = nom;
         this.du = du;
         this.au = au;
         this.tache = tache;
-        this.formation_id=formation_id;
+        this.formation_id = formation_id;
+    }
+    public int getFormation_id() {
+        return formation_id;
+    }
+    public void setFormation_id(int formation_id) {
+        this.formation_id = formation_id;
     }
 
     public int getId() {

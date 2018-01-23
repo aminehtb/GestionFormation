@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.category;
+import models.formation;
 import models.keywords;
 
 /**
@@ -39,6 +40,39 @@ public class keywordsDb {
             }
             rs.close();
             return keywords;
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"msg !");
+        }
+        return null;
+    }
+    
+    public ArrayList<formation> searchFormation(String mot) {
+        
+        String[] all=mot.split(" ");
+             try {
+            
+            ArrayList<formation> formations=new ArrayList<>();
+            c=maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="SELECT * FROM keywords ";
+            ResultSet rs = stmt.executeQuery(sql);
+      
+            while(rs.next()){
+                
+                keywords key=new keywords(rs.getInt("id"), rs.getString("mot"), rs.getInt("formation_id"));
+                for (int i = 0; i < all.length; i++) {
+                    if(key.getMot().toLowerCase().contains(all[i].toLowerCase())){
+                        formationDaoDB db=new formationDaoDB();
+                        formation f=db.findById(key.getFormation_id());
+                        formations.add(f);
+                    }
+                }
+                
+               
+            }
+            rs.close();
+            return formations;
         } catch (SQLException ex) {
             Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"msg !");

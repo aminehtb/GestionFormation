@@ -154,7 +154,9 @@
                         <div class="col-sm-3">
                             <ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
                                 <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
+                                <li><a data-toggle="tab" href="#program">Program</a></li>
                                 <li><a data-toggle="tab" href="#review">REVIEW</a></li>
+
                             </ul><!-- /.nav-tabs #product-tabs -->
                         </div>
                         <div class="col-sm-9">
@@ -162,13 +164,41 @@
                             <div class="tab-content">
                                 
                                 <div id="description" class="tab-pane in active">
-                                    <div class="product-tab">
-                                        <p class="text">
+                                    <div class="product-reviews">
+                                        <div class="reviews">
+                                                <div class="review">
                                         ${obj.getDescription()}
-                                        </p>
+                                        </div>
+                                        </div>
+
                                     </div>  
                                 </div><!-- /.tab-pane -->
-
+                                <div id="program" class="tab-pane">
+                                    <div class="product-tab">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="cart-product-name item">Nom</th>
+                                                        <th class="cart-product-name item">Du</th>
+                                                        <th class="cart-sub-total item">Au</th>
+                                                        <th class="cart-total last-item">Tache</th>
+                                                    </tr>
+                                                </thead><!-- /thead -->
+                                                <tbody>
+                                                    <c:forEach begin="1" end="${prog.size()}" var="i">
+                                                        <tr>
+                                                            <td class="cart-product-grand-total"><span class="cart-grand-total-price">${prog.get(i-1).getTitre()} </span></td>
+                                                            <td class="cart-product-grand-total"><span class="cart-grand-total-price">${prog.get(i-1).getDu()} </span></td>
+                                                            <td class="cart-product-grand-total"><span class="cart-grand-total-price">${prog.get(i-1).getAu()} </span></td>
+                                                            <td class="cart-product-grand-total"><span class="cart-grand-total-price">${prog.get(i-1).getTache()} </span></td>
+                                                        </tr>
+                                                        </c:forEach>
+                                                    </tbody><!-- /tbody -->
+                                            </table>
+                                        </div>
+                                        </div>
+                                        </div>
                                 <div id="review" class="tab-pane">
                                     <div class="product-tab">
                                                                                 

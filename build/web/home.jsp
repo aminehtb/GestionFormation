@@ -111,10 +111,9 @@
       <div class="pagination-container">
   <ul class="list-inline list-unstyled">
     <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-    <li><a href="#">1</a></li>  
-    <li class="active"><a href="#">2</a></li> 
-    <li><a href="#">3</a></li>  
-    <li><a href="#">4</a></li>  
+    <c:forEach begin="1" end="${numpage}" var="i">
+    <li><a href="home?selectedPage=${i}">${i}</a></li>  
+    </c:forEach>
     <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
   </ul><!-- /.list-inline -->
 </div><!-- /.pagination-container -->   </div><!-- /.col -->
@@ -156,7 +155,29 @@
             <ul class="list-unstyled">
               <li class="add-cart-button btn-group">
               <input type="hidden" name="add-cart" value="${formations.get(i-1).getId()}">
-                <button class="btn btn-primary cart-btn" name="add-cart" type="submit">Add to cart</button>
+              <!-- if user is logged in test if the item is allrady in the database and disable the button -->
+              <c:choose>
+              <c:when test="${not empty user}" >
+                <c:set var="is_in_panier" value="false" />
+                <c:forEach begin="1" end="${panier.size()}" var="j">
+                  <c:if test="${panier.get(j-1).getFormation_id() == formations.get(i-1).getId()}">
+                    <c:set var="is_in_panier" value="true" />
+                  </c:if>
+                </c:forEach>
+                  <c:choose >
+                  <c:when test="${is_in_panier==true}" >
+                    <button class="btn btn-primary cart-btn " disabled="true" name="add-cart" type="submit">Add to cart</button>
+                  </c:when>
+                  <c:when test="${is_in_panier==false}" >
+                    <button class="btn btn-primary cart-btn " name="add-cart" type="submit">Add to cart</button>
+                  </c:when>
+                  </c:choose>
+                </c:when>
+                <c:when test="${empty user}" >
+                <a class="btn btn-primary cart-btn " name="add-cart" href="sign-in.jsp" >Add to cart</a>
+                </c:when>
+                </c:choose>
+
               </li> 
                       <li class="lnk wishlist">
                 <a class="add-to-cart" href="detail.html" title="Wishlist">
@@ -178,7 +199,7 @@
       </div><!-- /.product-info --> 
     </div><!-- /.col -->
   </div><!-- /.product-list-row -->
-  <div class="tag new"><span>new</span></div>        </div><!-- /.product-list -->
+  <div class="tag new"><span>${sessions.get(i-1).getNom()}</span></div>        </div><!-- /.product-list -->
       </div><!-- /.products -->
     </div><!-- /.category-product-inner -->
     </c:forEach>
@@ -200,10 +221,10 @@
                      <div class="pagination-container">
   <ul class="list-inline list-unstyled">
     <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-    <li><a href="#">1</a></li>  
-    <li class="active"><a href="#">2</a></li> 
-    <li><a href="#">3</a></li>  
-    <li><a href="#">4</a></li>  
+    <c:forEach begin="1" end="${numpage}" var="i">
+    <li><a href="home?selectedPage=${i}">${i}</a></li>  
+    </c:forEach>
+    
     <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
   </ul><!-- /.list-inline -->
 </div><!-- /.pagination-container -->               </div><!-- /.text-right -->

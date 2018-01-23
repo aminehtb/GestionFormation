@@ -10,9 +10,11 @@ import models.formation;
 import connection.formationDaoDB;
 import connection.keywordsDb;
 import connection.panierDB;
+import connection.sessionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.keywords;
 import models.panier;
+import models.session;
 import models.user;
 
 /**
@@ -42,7 +45,10 @@ public class home extends HttpServlet {
             throws ServletException, IOException {
         
         String  action=request.getParameter("add-cart");
-        System.out.println(""+action);
+        String  mot=request.getParameter("search");
+        String selectedPage=request.getParameter("selectedPage");
+
+        
         String[] slider=null;
         if(request.getParameter("slider")!=null)
             slider=request.getParameter("slider").split(",");
@@ -63,7 +69,37 @@ public class home extends HttpServlet {
         if(slider!=null){
             formations=filterByPrice(formations,slider[0],slider[1]);
         }
-   
+        //search
+        if(mot!=null){
+            formations=new keywordsDb().searchFormation(mot);
+        }
+        //pagination 
+        int itemPerPage=5;
+        int numpage=1;
+        List<formation> list=new ArrayList<formation>();
+        if(formations.size()<itemPerPage){
+            numpage=1;
+            list=formations;
+        }else{
+        if(formations.size()%itemPerPage==0)
+                numpage=formations.size()/itemPerPage;
+        else
+                numpage=(formations.size()/itemPerPage)+1;
+        
+        //creating sublist from all fomations
+        
+        int slected=0;
+        if(selectedPage!=null){
+            slected=Integer.parseInt(selectedPage)-1;
+        }
+        
+        if(slected<numpage){
+                list=formations.subList(itemPerPage*slected,slected+itemPerPage);
+            }
+            if (slected==numpage){ 
+                list=formations.subList(itemPerPage*slected,formations.size());
+            }
+            }
         ArrayList<keywords> keywords_list=new ArrayList<keywords>();
         //getting keywords by looping trough all formations and then looping from all keywords taht matchs the formation id  
         for (int i = 0; i < formations.size(); i++) {
@@ -76,6 +112,11 @@ public class home extends HttpServlet {
                 keywords_list.add(res.get(j));
             }
         
+        }
+        //sessions
+        ArrayList<session> sessions=new ArrayList<session>();
+        for (int i = 0; i < formations.size(); i++) {
+            sessions.add(new sessionDB().findSessionById(formations.get(i).getSession_id()));
         }
         
         //panier 
@@ -95,8 +136,10 @@ public class home extends HttpServlet {
            
         }
         //setting all attribute 
+        request.setAttribute("numpage", numpage);
         request.setAttribute("title", "Home | Gestion formation");
-        request.setAttribute("formations", formations);
+        request.setAttribute("formations", list);
+        request.setAttribute("sessions", sessions);
         request.getSession().setAttribute("categories", catDB.findAll());
         request.setAttribute("keywords", keywords_list);
         request.getRequestDispatcher("home.jsp").forward(request, response);

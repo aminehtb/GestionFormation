@@ -12,35 +12,43 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.category;
 import models.formation;
 import models.panier;
+import models.program;
 
 /**
  *
  * @author amine
  */
-public class panierDB {
-
+public class programDB {
+    
     Statement stmt = null;
     Connection c = null;
-
-    public ArrayList<panier> findAll(int id) {
+    
+    public ArrayList<program> findAll() {
         try {
 
-            ArrayList<panier> paniers = new ArrayList<>();
+            ArrayList<program> programs = new ArrayList<>();
             c = maConnection.getInstance();
             stmt = c.createStatement();
-            String sql = "SELECT * FROM panier where user_id=" + id;
+            String sql = "SELECT * FROM `program` ";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                panier p = new panier(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("formation_id"));
+                
+                program p=new  program(
+                        rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getString("du"),
+                        rs.getString("au"),
+                        rs.getString("tache"),
+                        rs.getInt("formation_id")
+                );
 
-                paniers.add(p);
+                programs.add(p);
             }
             rs.close();
-            return paniers;
+            return programs;
         } catch (SQLException ex) {
             Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
@@ -48,12 +56,44 @@ public class panierDB {
         return null;
     }
 
-    public boolean addFormationToPanier(panier p) {
+
+    public ArrayList<program> findProgramByFormationId(int formation_id) {
+        try {
+
+            ArrayList<program> programs = new ArrayList<>();
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "SELECT * FROM `program` where formation_id=" + formation_id;
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                
+                program p=new  program(
+                        rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getString("du"),
+                        rs.getString("au"),
+                        rs.getString("tache"),
+                        rs.getInt("formation_id")
+                );
+
+                programs.add(p);
+            }
+            rs.close();
+            return programs;
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return null;
+    }
+
+    public boolean addNewProgram(program p) {
         try {
 
             c = maConnection.getInstance();
             stmt = c.createStatement();
-            String sql = "INSERT INTO `panier`( `user_id`, `formation_id`) VALUES (" + p.getUser_id() + "," + p.getFormation_id() + ")";
+            String sql = "INSERT INTO `program`(`titre`, `du`, `au`, `tache`, `formation_id`) VALUES ('" + p.getTitre() + "','" + p.getDu()+"','" + p.getAu()+ "','" + p.getTache()+"'," + p.getFormation_id()+")";
 
             int rs = stmt.executeUpdate(sql);
 
@@ -67,45 +107,27 @@ public class panierDB {
         }
         return false;
     }
-
-    public ArrayList<formation> findAllFormation(int id) {
+    
+    public boolean updateProgram(int id,program p) {
         try {
 
-            ArrayList<formation> formation = new ArrayList<>();
             c = maConnection.getInstance();
             stmt = c.createStatement();
-            ResultSet rs = null;
-            ArrayList<panier> list = this.findAll(id);
-            for (int i = 0; i < list.size(); i++) {
-                String sql = "SELECT * FROM formation where id=" + list.get(i).getFormation_id();
-                rs = stmt.executeQuery(sql);
+            String sql="UPDATE `program` SET `titre`='" + p.getTitre() + "',`du`='" + p.getDu()+"',`au`='" + p.getAu()+ "',`tache`='" + p.getTache()+"' WHERE id="+id;
+            
 
-                while (rs.next()) {
-                    formation f = new formation(
-                            rs.getString("nom"),
-                            rs.getString("description"),
-                            rs.getString("price"),
-                            rs.getInt("discount"),
-                            rs.getInt("place"),
-                            rs.getInt("nb_heur"),
-                            rs.getInt("id"),
-                            rs.getInt("niveau_id"),
-                            rs.getInt("category_id"),
-                            rs.getInt("session_id")
-                    );
+            int rs = stmt.executeUpdate(sql);
 
-                    formation.add(f);
-                }
+            if (rs != 0) {
+                return true;
             }
-            return formation;
+
         } catch (SQLException ex) {
             Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
         }
-        return null;
+        return false;
     }
-
-    
     public String getToatalPrice(int id) {
         try {
 

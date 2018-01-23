@@ -121,4 +121,40 @@ public class formationDaoDB implements formationDAO {
         return null;
     }
     
+    public boolean takePlace(int id) {
+        try {
+            ArrayList<formation> list = new ArrayList<>();
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "SELECT * FROM formation where id="+id;
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                formation f=new formation(
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getString("price"),
+                        rs.getInt("discount"),
+                        rs.getInt("place"),
+                        rs.getInt("nb_heur"),
+                        rs.getInt("id"),
+                        rs.getInt("niveau_id"),
+                        rs.getInt("category_id"),
+                        rs.getInt("session_id")
+                );
+                int p=f.getPlaces()-1;
+                String sql1 = "UPDATE `formation` SET `place`="+p+" where id="+id;
+                int rs1 = stmt.executeUpdate(sql1);
+                if(rs1!=0)
+                    return true;
+              
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(formationDaoDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
 }

@@ -26,7 +26,7 @@
 					
 					<li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
 					<li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
-					<li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
+					<li><a href="checkout"><i class="icon fa fa-check"></i>Checkout</a></li>
 					<c:choose >
                                 <c:when test="${empty user}" >
                                 	<li><a href="sign-in.jsp"><i class="icon fa fa-lock"></i>Login</a></li>
@@ -89,15 +89,9 @@
 
                         <li class="menu-header">All Categories</li>
                         <c:forEach begin="1" end="${categories.size()}" var="i">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="home?filter='${categories.get(i-1).nom}'">${categories.get(i-1).nom}</a></li>
+                        	<li role="presentation"><a role="menuitem" tabindex="-1" href="home?filter='${categories.get(i-1).nom}'">${categories.get(i-1).nom}</a></li>
 						</c:forEach>
-                        
-                        <!-- 
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="home?filter='electronique'">Electronics</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="home?filter='mecanique'">Mecanique</a></li> 
-                        -->
-                        
-
+              
                     </ul>
                 </li>
             </ul>
@@ -195,11 +189,11 @@
 	<div class="nav-outer">
 		<ul class="nav navbar-nav">
 			<li class="active dropdown yamm-fw">
-				<a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Home</a>
+				<a href="home.html"  class="dropdown-toggle" data-toggle="dropdown">Home</a>
 				
 			</li>
 			<li class="dropdown yamm mega-menu">
-				<a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">shopping cart</a>
+				<a href="checkout"  class="dropdown-toggle" data-toggle="dropdown">Checkout</a>
               
 				
 			</li>
