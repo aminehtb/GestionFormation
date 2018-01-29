@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/keywordsDb.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/models/program.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/panierDB.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/home.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/programDB.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/detail.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/sessionDB.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/adminDB.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/admin.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/home_admin.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/add.java</file>
         </group>
     </open-files>
 </project-private>

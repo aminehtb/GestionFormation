@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import models.category;
 import models.formation;
 import models.keywords;
+import models.program;
 
 /**
  *
@@ -78,6 +79,28 @@ public class keywordsDb {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"msg !");
         }
         return null;
+    }
+    
+    
+    public boolean addNewKeyword(keywords k) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            System.out.println("   :   "+k.toString());
+            String sql = "INSERT INTO `keywords`( `mot`, `formation_id`) VALUES ('" + k.getMot() + "'," + k.getFormation_id()+")";
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
     }
     
 }

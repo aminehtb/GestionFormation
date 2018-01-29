@@ -121,6 +121,32 @@ public class formationDaoDB implements formationDAO {
         return null;
     }
     
+    public int addNewFormation(formation s) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "INSERT INTO `formation`( `nom`, `description`, `price`, `place`, `nb_heur`, `discount`, `niveau_id`, `category_id`, `session_id`) "
+                    + "VALUES ('" + s.getNom() + "',\"" + s.getDescription()+"\",'" + s.getPrice()+"'," + s.getPlaces()+"," + s.getNbr_heurs()+"," + s.getDiscount()+"," + s.getNiveau_id()+"," + s.getCategory_id()+ ","+s.getSession_id()+")";
+
+            int rs = stmt.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+            ResultSet res = stmt.getGeneratedKeys();
+            long productId=-1;
+            if (res.next()) {
+               productId= res.getLong(1);
+                System.out.println("form db !: "+productId);
+            }
+            
+             return (int)productId;
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return -1;
+    }
+ 
+    
     public boolean takePlace(int id) {
         try {
             ArrayList<formation> list = new ArrayList<>();

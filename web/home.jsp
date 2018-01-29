@@ -206,8 +206,8 @@
     </c:when>
     <c:when test="${empty formations}">
     <div >
-    <h1>Sorry</h1>
-    <h3>We could not find any product !</h3>
+    <h1 class="lead">Sorry</h1>
+    <h3 class="lead">We could not find any product !</h3>
     </div>
     </c:when>
 </c:choose>        

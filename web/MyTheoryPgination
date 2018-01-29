@@ -1,0 +1,22 @@
+ArrayList tous=db.findALL();
+selectedPage=reques.getParameter("selectedPage");
+
+itemPerPage=5;
+if(tous.size()%5==0)
+	numpage=tous.size()/itemPerPage;
+else
+	numpage=(tous.size()/itemPerPage)+1
+
+if(selectedPage<numpage)
+	list=list.subList(5*selectedPage,selectedPage+5);
+if (selectedPage==numpage) 
+	list=subList(5*selectedPage,list.size())
+//======================  JSP  =========================//
+<forEach i=1 to ${numpage}
+<choose>
+<when test="selectedPage==${i}">
+//foreach begin 1 end size
+</when>
+<when test="selectedPage==2">
+//foreach begin 6 end 10
+</when>

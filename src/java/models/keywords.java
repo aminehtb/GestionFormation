@@ -19,6 +19,7 @@ public class keywords {
 
     public keywords(String mot, int formation_id) {
         this.mot = mot;
+        this.formation_id = formation_id;
     }
 
     public keywords(int id, String mot, int formation_id) {

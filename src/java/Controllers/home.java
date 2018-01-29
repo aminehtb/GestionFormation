@@ -63,7 +63,7 @@ public class home extends HttpServlet {
         if(filter==null)
                 formations=db.findAll();
             else{
-                formations=db.findByCategory(new categoryDB().getCategoryId(filter));
+                formations=db.findByCategory(new categoryDB().findCategoryId(filter));
             }
         //filtring with price 
         if(slider!=null){
@@ -137,6 +137,7 @@ public class home extends HttpServlet {
         }
         //setting all attribute 
         request.setAttribute("numpage", numpage);
+        request.setAttribute("search", mot);
         request.setAttribute("title", "Home | Gestion formation");
         request.setAttribute("formations", list);
         request.setAttribute("sessions", sessions);

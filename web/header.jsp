@@ -96,8 +96,8 @@
                 </li>
             </ul>
 
-            <form method="GET" action="">
-	    		<input class="search-field" name="search" type="text"  placeholder="Search here..." />  
+            <form method="GET" action="home">
+	    		<input class="search-field" name="search" type="text" value='${search}' placeholder="Search here..." />  
             	 <button class="button search-button" > </button>
             	
             </form>

@@ -43,7 +43,7 @@ public class categoryDB {
         }
         return null;
     }
-    public int getCategoryId(String nom){
+    public int findCategoryId(String nom){
          try {
             
             c=maConnection.getInstance();
