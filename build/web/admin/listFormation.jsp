@@ -18,11 +18,39 @@
         </li>
       </ol>
 
+      <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Sessions :
+          <div class="pull-right">
+            <a href="add"><i class="fa fa-plus"></i>Add</a>
+          </div>
+        </div>
+        <div class="card-body">
+          
+        </div>
+      </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Categories :
+          <div class="pull-right">
+            <a href="add"><i class="fa fa-plus"></i>Add</a>
+          </div>
+        </div>
+        <div class="card-body">
+          
+        </div>
+      </div>
+      </div>
+      </div>
+      
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i> List de formations :
           	<div class="pull-right">
-          	<a href="add"><i class="af fa-"></i>Add</a>
+          	<a href="add"><i class="fa fa-plus"></i>Add</a>
           	</div>
           </div>
         <div class="card-body">
@@ -38,7 +66,6 @@
               </thead>
               <tfoot>
                 <tr>
-                  <tr>
                   <th>name</th>
                   <th>places available</th>
                   <th>price</th>
@@ -60,7 +87,8 @@
              </div>
             </div>
 
-</div>
+      </div>
+
 </div>
       
 

@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import connection.categoryDB;
 import connection.formationDaoDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -67,6 +68,7 @@ public class home_admin extends HttpServlet {
             ArrayList formations = new ArrayList();
             formations = db.findAll();
             request.setAttribute("formations", formations);
+            request.setAttribute("categories", new categoryDB().findAll());
             request.getRequestDispatcher("admin/listFormation.jsp").forward(request, response);
         } else {
             response.sendRedirect("admin");
