@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.formation;
 import models.keywords;
 import models.program;
+import models.admins;
 
 /**
  *
@@ -81,7 +82,7 @@ public class add extends HttpServlet {
         //set the niveau list and categories and session
         //Ssend them to UI
         //check post
-        admin a = (admin) request.getSession().getAttribute("admin");
+        admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
             sessionDB session_db = new sessionDB();
             categoryDB category_db = new categoryDB();
@@ -100,13 +101,16 @@ public class add extends HttpServlet {
             throws ServletException, IOException {
         //get data from 1 then create the formation
         //takes you to fill an keyword list which
-        admin a = (admin) request.getSession().getAttribute("admin");
+        admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
             String loc = request.getParameter("location");
             String sub = request.getParameter("submit");
-            if (request.getParameter("formation_id") != null) {
-                System.out.println("formation_id : " + request.getParameter("formation_id"));
-                idx = Integer.parseInt(request.getParameter("formation_id"));
+            
+            System.out.println("first of all :"+request.getServletContext().getAttribute("formation_id"));
+            
+            if (request.getServletContext().getAttribute("formation_id") != null) {
+                System.out.println("formation_id : " + request.getServletContext().getAttribute("formation_id"));
+                idx = Integer.parseInt(request.getServletContext().getAttribute("formation_id").toString());
             }
 
             System.out.println("id " + idx);
@@ -131,12 +135,12 @@ public class add extends HttpServlet {
                 f.setCategory_id(Integer.parseInt(map.get("category")[0]));
                 f.setNiveau_id(Integer.parseInt(map.get("niveau")[0]));
                 f.setSession_id(Integer.parseInt(map.get("session")[0]));
-                if (idx == -1) {
+                if (request.getServletContext().getAttribute("formation_id")==null) {
                     idx = fdb.addNewFormation(f);
                 }
                 if (idx != -1) {
                     f.setId(idx);
-                    request.setAttribute("formation_id", f.getId());
+                    request.getServletContext().setAttribute("formation_id", f.getId());
                     request.setAttribute("place", "program");
                     this.doGet(request, response);
                 } else {
@@ -156,17 +160,19 @@ public class add extends HttpServlet {
                     request.setAttribute("place", "keyword");
                 }
                 request.setAttribute("programs", pdb.findProgramByFormationId(idx));
-                request.setAttribute("formation_id", idx);
+                request.getServletContext().setAttribute("formation_id", idx);
                 this.doGet(request, response);
             } else if (loc.equals("keyword")) {
                 System.out.println("from inside keyword iff " + request.getParameter("keys"));
-                System.out.println("params name " + request.getParameterNames());
                 String[] keywords = request.getParameter("keys").split(",");
                 for (String keyword : keywords) {
                     //add keyword
                     keywords k = new keywords(keyword, idx);
                     kdb.addNewKeyword(k);
                 }
+                
+                request.getServletContext().removeAttribute("formation_id");
+                System.out.println("after remove :"+request.getServletContext().getAttribute("formation_id") );
                 //send bak to admin 
                 response.sendRedirect("adminHome");
             }

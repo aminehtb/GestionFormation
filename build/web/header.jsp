@@ -23,9 +23,6 @@
                                 	<li><a href="#"><i class="icon fa fa-user"></i>${user.getFirstname()}</a></li>
                                 </c:when>
                   	</c:choose>
-					
-					<li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
-					<li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
 					<li><a href="checkout"><i class="icon fa fa-check"></i>Checkout</a></li>
 					<c:choose >
                                 <c:when test="${empty user}" >
@@ -39,20 +36,7 @@
 				</ul>
 			</div><!-- /.cnt-account -->
 
-			<div class="cnt-block">
-				<ul class="list-unstyled list-inline">
-					
-
-					<li class="dropdown dropdown-small">
-						<a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">English </span><b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">English</a></li>
-							<li><a href="#">French</a></li>
-							<li><a href="#">German</a></li>
-						</ul>
-					</li>
-				</ul><!-- /.list-unstyled -->
-			</div><!-- /.cnt-cart -->
+			
 			<div class="clearfix"></div>
 		</div><!-- /.header-top-inner -->
 	</div><!-- /.container -->
@@ -64,7 +48,7 @@
 				<div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
 					<!-- ============================================================= LOGO ============================================================= -->
 <div class="logo">
-	<a href="home.html">
+	<a href="home">
 		
 		<img src="assets/images/logo.png" alt="">
 
@@ -189,7 +173,7 @@
 	<div class="nav-outer">
 		<ul class="nav navbar-nav">
 			<li class="active dropdown yamm-fw">
-				<a href="home.html"  class="dropdown-toggle" data-toggle="dropdown">Home</a>
+				<a href="home"  class="dropdown-toggle" data-toggle="dropdown">Home</a>
 				
 			</li>
 			<li class="dropdown yamm mega-menu">
@@ -226,7 +210,7 @@
 								
 									<div class="col-xs-12 col-menu">
 	                                  <ul class="links">
-		                                  	<li><a href="home.html">Home</a></li>
+		                                  	<li><a href="home">Home</a></li>
 											<li><a href="category.html">Category</a></li>
 											<li><a href="detail.html">Detail</a></li>
 											<li><a href="shopping-cart.html">Shopping Cart Summary</a></li>

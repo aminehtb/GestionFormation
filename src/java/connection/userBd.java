@@ -158,7 +158,7 @@ public class userBd {
                        rs.getInt("id")
                );
               
-               return user;
+               return u;
             }
             
         } catch (SQLException ex) {

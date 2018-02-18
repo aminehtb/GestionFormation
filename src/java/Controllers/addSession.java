@@ -5,8 +5,9 @@
  */
 package Controllers;
 
-import connection.adminDB;
-import connection.userBd;
+import connection.categoryDB;
+import connection.niveauDB;
+import connection.sessionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,16 +15,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.admins;
-import models.user;
+import models.session;
 
 /**
  *
  * @author amine
  */
-@WebServlet(name = "admin", urlPatterns = {"/admin"})
-public class admin extends HttpServlet {
+@WebServlet(name = "addSession", urlPatterns = {"/addSession"})
+public class addSession extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +42,10 @@ public class admin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet admin</title>");            
+            out.println("<title>Servlet addSession</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet admin at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet addSession at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,10 +63,15 @@ public class admin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("admin/login.jsp").forward(request, response);
+        admins a = (admins) request.getSession().getAttribute("admin");
+        if (a != null) {
+            
+            request.getRequestDispatcher("admin/addSession.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("admin");
+        }
     }
 
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -78,19 +83,19 @@ public class admin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username=request.getParameter("usr");
-        String password=request.getParameter("pass");
-        adminDB db=new adminDB();
-        admins u=db.validate(username, password);
-        HttpSession session = request.getSession();
-        if(u!=null){
-            session.setAttribute("admin", u);
-            session.setAttribute("connected", true);
-            session.setMaxInactiveInterval(999999999);
+         admins a = (admins) request.getSession().getAttribute("admin");
+        if (a != null) {
+            
+            String nom= request.getParameter("nom");
+            String date= request.getParameter("date");
+
+            sessionDB db=new sessionDB();
+            session s=new session(nom, date);
+            db.addNewSession(s);
+            
             response.sendRedirect("adminHome");
-        }else{
-            request.setAttribute("msg", "email or password incorrect Please try login again !");
-            request.getRequestDispatcher("admin/login.jsp").forward(request, response);
+        }else {
+            response.sendRedirect("admin");
         }
     }
 

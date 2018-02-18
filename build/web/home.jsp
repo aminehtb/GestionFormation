@@ -72,7 +72,7 @@
     <div class="tag-list">
     
     <c:forEach begin="1" end="${keywords.size()}" var="i">
-      <a class="item" title="Phone" href="category.html">${keywords.get(i-1).mot}</a>
+      <a class="item" title="Phone" href="home?search=${keywords.get(i-1).mot}">${keywords.get(i-1).mot}</a>
     </c:forEach>     
 
     </div><!-- /.tag-list -->
@@ -179,18 +179,6 @@
                 </c:choose>
 
               </li> 
-                      <li class="lnk wishlist">
-                <a class="add-to-cart" href="detail.html" title="Wishlist">
-                   <i class="icon fa fa-heart"></i>
-                </a>
-              </li>
-
-
-              <li class="lnk">
-                <a class="add-to-cart" href="detail.html" title="Compare">
-                    <i class="fa fa-signal"></i>
-                </a>
-              </li>
             </ul>
           </div><!-- /.action -->
           </form>
@@ -199,7 +187,7 @@
       </div><!-- /.product-info --> 
     </div><!-- /.col -->
   </div><!-- /.product-list-row -->
-  <div class="tag new"><span>${sessions.get(i-1).getNom()}</span></div>        </div><!-- /.product-list -->
+ </div><!-- /.product-list -->
       </div><!-- /.products -->
     </div><!-- /.category-product-inner -->
     </c:forEach>
@@ -247,5 +235,6 @@
 
     <jsp:include page="footer.jsp"/>
     <jsp:include page="scripts.jsp"/>
+   
   </body>
 </html>

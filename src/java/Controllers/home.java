@@ -74,7 +74,7 @@ public class home extends HttpServlet {
             formations=new keywordsDb().searchFormation(mot);
         }
         //pagination 
-        int itemPerPage=5;
+        int itemPerPage=3;
         int numpage=1;
         List<formation> list=new ArrayList<formation>();
         if(formations.size()<itemPerPage){
@@ -109,7 +109,9 @@ public class home extends HttpServlet {
                                     .getId()
                     );
             for (int j = 0; j < res.size(); j++) {
-                keywords_list.add(res.get(j));
+                
+                if(!keywordExist(keywords_list,res.get(j)))
+                    keywords_list.add((keywords)res.get(j));
             }
         
         }
@@ -156,6 +158,14 @@ public class home extends HttpServlet {
                 newList.add(obj);
         }
         return newList;
+    }
+    
+    public boolean keywordExist(ArrayList<keywords> list,keywords k){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getMot().equals(k.getMot()))
+                return true;
+        }
+        return false;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -7,6 +7,7 @@ package Controllers;
 
 import connection.categoryDB;
 import connection.formationDaoDB;
+import connection.sessionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -64,11 +65,24 @@ public class home_admin extends HttpServlet {
             throws ServletException, IOException {
         admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
+            
+            String type   = request.getParameter("type");
+            String id     = request.getParameter("id");
+            String action = request.getParameter("action");
+            
+            if(type!=null && id !=null && action!=null){
+                //delete
+                if(action.equals("delete")){
+                    
+                   // ========= to complete ========== //
+                }
+            }
             formationDaoDB db = new formationDaoDB();
             ArrayList formations = new ArrayList();
             formations = db.findAll();
             request.setAttribute("formations", formations);
             request.setAttribute("categories", new categoryDB().findAll());
+            request.setAttribute("sessions", new sessionDB().findAll());
             request.getRequestDispatcher("admin/listFormation.jsp").forward(request, response);
         } else {
             response.sendRedirect("admin");

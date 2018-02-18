@@ -5,7 +5,6 @@
  */
 package Controllers;
 
-import connection.adminDB;
 import connection.userBd;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,16 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import models.admins;
 import models.user;
 
 /**
  *
  * @author amine
  */
-@WebServlet(name = "admin", urlPatterns = {"/admin"})
-public class admin extends HttpServlet {
+@WebServlet(name = "allUsers", urlPatterns = {"/users"})
+public class allUsers extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +39,10 @@ public class admin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet admin</title>");            
+            out.println("<title>Servlet allUsers</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet admin at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet allUsers at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,10 +60,11 @@ public class admin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("admin/login.jsp").forward(request, response);
+            
+            request.setAttribute("users", new userBd().findAll());
+            request.getRequestDispatcher("admin/users.jsp").forward(request, response);
     }
 
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -78,20 +76,7 @@ public class admin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username=request.getParameter("usr");
-        String password=request.getParameter("pass");
-        adminDB db=new adminDB();
-        admins u=db.validate(username, password);
-        HttpSession session = request.getSession();
-        if(u!=null){
-            session.setAttribute("admin", u);
-            session.setAttribute("connected", true);
-            session.setMaxInactiveInterval(999999999);
-            response.sendRedirect("adminHome");
-        }else{
-            request.setAttribute("msg", "email or password incorrect Please try login again !");
-            request.getRequestDispatcher("admin/login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

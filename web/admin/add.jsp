@@ -38,7 +38,7 @@
                 </div>  
                 <div class="form-group">
                   <div class="form-row">
-                    <div class="col-md-6">
+                    <div class="col-md-6"> 
                       <label >Number of places</label>
                       <input class="form-control"  type="text" placeholder="places" name="places">
                     </div>

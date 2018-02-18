@@ -6,11 +6,13 @@
 package connection;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.admins;
 import models.facture;
 import models.panier;
 
@@ -23,7 +25,24 @@ public class factureDB {
     Connection c = null;
 
     public ArrayList<facture> findAll(int id) {
-        return null;
+        ArrayList<facture> list=new ArrayList<>();
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "SELECT * FROM `facture` where formation_id="+id;
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+
+                facture f=new facture(rs.getInt("user_id"), rs.getInt("formation_id"), rs.getString("montant"));
+                list.add(f);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
     public boolean addFacture(panier p,String montant){
         try {
