@@ -71,7 +71,14 @@ public class home extends HttpServlet {
         }
         //search
         if(mot!=null){
-            formations=new keywordsDb().searchFormation(mot);
+            //seaarch bjy keywords
+            ArrayList<formation> res_keywords=new keywordsDb().searchFormation(mot);
+            //search by name
+            ArrayList<formation> res_name=searchByName(formations, mot);
+            //search in description
+            ArrayList<formation> res_Description=searchByDescription(formations, mot);
+            //concate
+            formations=concatLists(res_keywords,res_Description,res_name);
         }
         //pagination 
         int itemPerPage=3;
@@ -91,12 +98,13 @@ public class home extends HttpServlet {
         int slected=0;
         if(selectedPage!=null){
             slected=Integer.parseInt(selectedPage)-1;
+            System.out.println("selected :"+selectedPage);
         }
         
         if(slected<numpage){
-                list=formations.subList(itemPerPage*slected,slected+itemPerPage);
+                list=formations.subList(itemPerPage*slected,itemPerPage*slected+itemPerPage);
             }
-            if (slected==numpage){ 
+            if (slected+1==numpage){ 
                 list=formations.subList(itemPerPage*slected,formations.size());
             }
             }
@@ -114,11 +122,6 @@ public class home extends HttpServlet {
                     keywords_list.add((keywords)res.get(j));
             }
         
-        }
-        //sessions
-        ArrayList<session> sessions=new ArrayList<session>();
-        for (int i = 0; i < formations.size(); i++) {
-            sessions.add(new sessionDB().findSessionById(formations.get(i).getSession_id()));
         }
         
         //panier 
@@ -142,7 +145,6 @@ public class home extends HttpServlet {
         request.setAttribute("search", mot);
         request.setAttribute("title", "Home | Gestion formation");
         request.setAttribute("formations", list);
-        request.setAttribute("sessions", sessions);
         request.getSession().setAttribute("categories", catDB.findAll());
         request.setAttribute("keywords", keywords_list);
         request.getRequestDispatcher("home.jsp").forward(request, response);
@@ -166,6 +168,37 @@ public class home extends HttpServlet {
                 return true;
         }
         return false;
+    }
+    
+    public boolean formationExist(ArrayList<formation> list,formation f){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getId()==f.getId())
+                return true;
+        }
+        return false;
+    }
+    public ArrayList<formation> searchByName(ArrayList<formation> list,String s){
+        ArrayList<formation> res=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            formation f=list.get(i);
+            if(f.getNom().contains(s)){
+                res.add(f);
+            }
+        }
+        
+        return res;
+    }
+    
+    public ArrayList<formation> searchByDescription(ArrayList<formation> list,String s){
+        ArrayList<formation> res=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            formation f=list.get(i);
+            if(f.getDescription().contains(s)){
+                res.add(f);
+            }
+        }
+        
+        return res;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -206,5 +239,30 @@ public class home extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private ArrayList<formation> concatLists(ArrayList<formation> res_keywords, ArrayList<formation> res_Description, ArrayList<formation> res_name) {
+        ArrayList<formation> res=new ArrayList<>();
+        
+        for (int i = 0; i < res_Description.size(); i++) {
+            if(!formationExist(res, res_Description.get(i)))
+                res.add(res_Description.get(i));
+        }
+        
+        for (int i = 0; i < res_keywords.size(); i++) {
+            if(!formationExist(res, res_keywords.get(i)))
+                res.add(res_keywords.get(i));
+        }
+        
+        for (int i = 0; i < res_name.size(); i++) {
+            if(!formationExist(res, res_name.get(i)))
+                res.add(res_name.get(i));
+        }
+        System.out.println("name :"+res_name);
+        System.out.println("des :"+res_Description);
+        System.out.println("key :"+res_keywords);
+        System.out.println("res :"+res);
+        
+        return res;
+    }
 
 }

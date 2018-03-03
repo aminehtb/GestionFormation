@@ -7,6 +7,7 @@ package Controllers;
  */
 
 import connection.formationDaoDB;
+import connection.panierDB;
 import connection.programDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.formation;
+import models.panier;
 import models.program;
+import models.user;
 
 /**
  *
@@ -65,14 +68,42 @@ public class detail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id=Integer.parseInt(request.getParameter("pk"));
-        System.err.println(""+request.getSession().getAttribute("totalPrice"));
+        String action = request.getParameter("action");
+        
+        panierDB pandb=new panierDB();
         formationDaoDB db=new formationDaoDB();
+        
+        if(action!=null && action.equals("cart")){
+            
+            if(request.getSession().getAttribute("user")!=null){
+                user usr=(user)request.getSession().getAttribute("user");
+
+                panier p=new panier(usr.getId(), id);
+                pandb.addFormationToPanier(p);
+
+                ArrayList<panier> paniers=pandb.findAll(usr.getId());
+                request.getSession().setAttribute("panier", paniers);
+                request.getSession().setAttribute("totalPrice", pandb.getToatalPrice(usr.getId()));
+            }else{
+                response.sendRedirect("sign-in.jsp");
+                return ;
+            }
+
+        }
+        boolean res=false;
+        if(request.getSession().getAttribute("user")!=null){
+                user usr=(user)request.getSession().getAttribute("user");
+                res=pandb.formation_in_panier(usr.getId(),id);
+        }
+        System.err.println(""+request.getSession().getAttribute("totalPrice"));
         formation f =db.findById(id);
         programDB pdb=new programDB();
         ArrayList<program> p =pdb.findProgramByFormationId(id);
         request.setAttribute("title", "Detail | Gestion formation");
         request.setAttribute("obj", f);
         request.setAttribute("prog", p);
+        request.setAttribute("in_panier", res);
+       
         request.getRequestDispatcher("detail.jsp").forward(request, response);
         
         

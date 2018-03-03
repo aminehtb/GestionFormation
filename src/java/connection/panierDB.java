@@ -90,8 +90,7 @@ public class panierDB {
                             rs.getInt("nb_heur"),
                             rs.getInt("id"),
                             rs.getInt("niveau_id"),
-                            rs.getInt("category_id"),
-                            rs.getInt("session_id")
+                            rs.getInt("category_id")
                     );
 
                     formation.add(f);
@@ -133,6 +132,26 @@ public class panierDB {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
         }
         return null;
+    }
+    
+    public boolean formation_in_panier(int user_id,int formation_id) {
+        try {
+
+            ArrayList<panier> paniers = new ArrayList<>();
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "SELECT * FROM panier where user_id="+user_id+" and formation_id="+formation_id;
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                return true;
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
     }
     
     public panier getPanierById(int id) {

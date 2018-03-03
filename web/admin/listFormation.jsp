@@ -10,103 +10,10 @@
 <body class="fixed-nav sticky-footer " id="page-top">
 	<jsp:include page="navbar.jsp"/>
 	<div class="content-wrapper">
-    <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-      </ol>
-
-      <div class="row">
-      <div class="col-md-6">
-        <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Sessions :
-          <div class="pull-right">
-            <a href="addSession"><i class="fa fa-plus"></i>Add</a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>nom</th>
-                  <th>date de debut</th>
-                  <th>action</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>nom</th>
-                  <th>date de debut</th>
-                  <th>action</th>
-                </tr>
-              </tfoot>
-              <tbody>
-              
-                <c:forEach begin="1" end="${sessions.size()}" var="i">
-                  
-                  <tr>
-                    <td>${sessions.get(i-1).getNom()}</td>
-                    <td>${sessions.get(i-1).getDate_debut()}</td>
-                    <td><a href="home_admin/${formations.get(i-1).getId()}/edit" class="btn btn-default"><i class="fa fa-edit"></i></a><a href="home_admin/${formations.get(i-1).getId()}/delete" class="btn btn-default"><i class="fa fa-remove"></i></a></td>
-                  </tr>
-                </c:forEach>
-               </tbody>
-              </table>
-          </div>
-        </div>
-      </div>
-      </div>
-      <div class="col-md-6">
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Categories :
-          <div class="pull-right">
-            <a href="add"><i class="fa fa-plus"></i>Add</a>
-          </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>nom</th>
-                  <th>action</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>nom</th>
-                  <th>action</th>
-                </tr>
-              </tfoot>
-              <tbody>
-              
-                <c:forEach begin="1" end="${categories.size()}" var="i">
-                  <tr>
-                    <td>${categories.get(i-1).getNom()}</td>
-                    <td><a href="adminHome?type=cat&id=${categories.get(i-1).getId()}&action=edit" class="btn btn-default"><i class="fa fa-edit"></i></a><a href="adminHome?type=cat&id=${categories.get(i-1).getId()}&action=delete" class="btn btn-default"><i class="fa fa-remove"></i></a></td>
-                  </tr>
-                </c:forEach>
-               </tbody>
-              </table>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-      </div>
-      
+    <div class="container">
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i> List de formations :
-          	<div class="pull-right">
-          	<a href="add"><i class="fa fa-plus"></i>Add</a>
-          	</div>
-          </div>
         <div class="card-body">
         	<div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -137,7 +44,7 @@
                     </td>
 	                  <td>${formations.get(i-1).getPlaces()}</td>
 	                  <td>${formations.get(i-1).getPrice()}</td>
-	                  <td><a href="home_admin/${formations.get(i-1).getId()}/edit" class="btn btn-default"><i class="fa fa-edit"></i></a><a href="home_admin/${formations.get(i-1).getId()}/delete" class="btn btn-default"><i class="fa fa-remove"></i></a></td>
+	                  <td><a href="adminHome?type=for&id=${formations.get(i-1).getId()}&action=edit" class="btn btn-default"><i class="fa fa-edit"></i></a><a href="adminHome?type=for&id=${formations.get(i-1).getId()}&action=delete" class="btn btn-default"><i class="fa fa-remove"></i></a></td>
 	                </tr>
                 </c:forEach>
                </tbody>
@@ -147,6 +54,7 @@
 
       </div>
 
+</div>
 </div>
       
 

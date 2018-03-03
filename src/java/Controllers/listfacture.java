@@ -5,25 +5,27 @@
  */
 package Controllers;
 
-import connection.categoryDB;
-import connection.niveauDB;
-import connection.sessionDB;
+import connection.factureDB;
+import connection.formationDaoDB;
+import connection.userBd;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.admins;
-import models.session;
+import models.facture;
+import models.formation;
+import models.user;
 
 /**
  *
  * @author amine
  */
-@WebServlet(name = "addSession", urlPatterns = {"/addSession"})
-public class addSession extends HttpServlet {
+@WebServlet(name = "listfacture", urlPatterns = {"/listfacture"})
+public class listfacture extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +44,10 @@ public class addSession extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addSession</title>");            
+            out.println("<title>Servlet listfacture</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet addSession at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet listfacture at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,18 +65,45 @@ public class addSession extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        admins a = (admins) request.getSession().getAttribute("admin");
-        if (a != null) {
-            if(request.getParameter("id")!=null){
-                sessionDB db=new sessionDB();
-                session s=db.findSessionById(Integer.parseInt(request.getParameter("id")));
-                request.setAttribute("session", s);
-                
+        String user_i = request.getParameter("user_i");
+        String formation_i = request.getParameter("formation_i");
+        
+        
+        ArrayList <formation> formations=new formationDaoDB().findAll();
+        ArrayList <user> users=new userBd().findAll();
+        ArrayList <facture> factures= new factureDB().findAll();
+        
+        if(formation_i!=null){
+            try {
+                factures=new factureDB().findByFormationId(Integer.parseInt(formation_i));
+            } catch (Exception e) {
             }
-            request.getRequestDispatcher("admin/addSession.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("admin");
+            
         }
+        if(user_i!=null){
+            try {
+                factures=new factureDB().findByUserId(Integer.parseInt(user_i));
+            } catch (Exception e) {
+            }
+            
+        }
+        String[] tab_nom=new String[factures.size()];
+        String[] tab_formation=new String[factures.size()];
+        
+        for (int i = 0; i < factures.size(); i++) {
+            user u=new userBd().findByID(factures.get(i).getUser_id());
+            formation f=new formationDaoDB().findById(factures.get(i).getFormation_id());
+            tab_nom[i]=u.getFirstname();
+            tab_formation[i]=f.getNom();
+        }
+        request.setAttribute("formation", tab_formation);
+        request.setAttribute("nom", tab_nom);
+        request.setAttribute("users", users);
+        request.setAttribute("formations",formations );
+        request.setAttribute("factures", factures);
+        
+                
+        request.getRequestDispatcher("admin/facture.jsp").forward(request, response);
     }
 
     /**
@@ -88,26 +117,7 @@ public class addSession extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         admins a = (admins) request.getSession().getAttribute("admin");
-        if (a != null) {
-            
-            String nom= request.getParameter("name");
-            String date= request.getParameter("date");
-            String id= request.getParameter("id");
-            System.out.println("Controllers.addSession.doPost() "+id);
-
-            sessionDB db=new sessionDB();
-            session s=new session(nom, date);
-            
-            if(!id.equals("")){
-                db.updateSession(Integer.parseInt(id), s);
-            }else
-                db.addNewSession(s);
-            
-            response.sendRedirect("adminHome");
-        }else {
-            response.sendRedirect("admin");
-        }
+        processRequest(request, response);
     }
 
     /**

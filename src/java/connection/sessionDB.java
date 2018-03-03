@@ -117,5 +117,25 @@ public class sessionDB {
         }
         return false;
     }
+    public boolean deleteSession(int id) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="DELETE FROM `session` WHERE id="+id;
+            
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
+    }
     
 }

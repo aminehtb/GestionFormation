@@ -10,6 +10,7 @@ import connection.formationDaoDB;
 import connection.panierDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,6 +84,15 @@ public class checkout extends HttpServlet {
                 for_db.takePlace(Integer.parseInt(pk));
                 db.deleteFormationToPanier(Integer.parseInt(pk));
                 
+            }
+        }
+        if(action!=null && action.equals("all")){
+            ArrayList<panier> list_panier=db.findAll(usr.getId());
+            for (int i = 0; i < list_panier.size(); i++) {
+                panier obj=list_panier.get(i);
+                fdb.addFacture(obj, for_db.findById(obj.getFormation_id()).getPrice());
+                for_db.takePlace(obj.getFormation_id());
+                db.deleteFormationToPanier(obj.getFormation_id());
             }
         }
         

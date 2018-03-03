@@ -43,8 +43,7 @@ public class formationDaoDB implements formationDAO {
                         rs.getInt("nb_heur"),
                         rs.getInt("id"),
                         rs.getInt("niveau_id"),
-                        rs.getInt("category_id"),
-                        rs.getInt("session_id")
+                        rs.getInt("category_id")
                 );
               
                 list.add(f);
@@ -57,6 +56,7 @@ public class formationDaoDB implements formationDAO {
         }
         return null;
     }
+    
     public ArrayList<formation> findByCategory(int category) {
         try {
             ArrayList<formation> list = new ArrayList<>();
@@ -76,8 +76,7 @@ public class formationDaoDB implements formationDAO {
                         rs.getInt("nb_heur"),
                         rs.getInt("id"),
                         rs.getInt("niveau_id"),
-                        rs.getInt("category_id"),
-                        rs.getInt("session_id")
+                        rs.getInt("category_id")
                 );
                 list.add(f);
             }
@@ -89,7 +88,6 @@ public class formationDaoDB implements formationDAO {
         return null;
     }
 
-    
     public formation findById(int id) {
         try {
             ArrayList<formation> list = new ArrayList<>();
@@ -109,8 +107,7 @@ public class formationDaoDB implements formationDAO {
                         rs.getInt("nb_heur"),
                         rs.getInt("id"),
                         rs.getInt("niveau_id"),
-                        rs.getInt("category_id"),
-                        rs.getInt("session_id")
+                        rs.getInt("category_id")
                 );
               return f;
 
@@ -126,8 +123,8 @@ public class formationDaoDB implements formationDAO {
 
             c = maConnection.getInstance();
             stmt = c.createStatement();
-            String sql = "INSERT INTO `formation`( `nom`, `description`, `price`, `place`, `nb_heur`, `discount`, `niveau_id`, `category_id`, `session_id`) "
-                    + "VALUES ('" + s.getNom() + "',\"" + s.getDescription()+"\",'" + s.getPrice()+"'," + s.getPlaces()+"," + s.getNbr_heurs()+"," + s.getDiscount()+"," + s.getNiveau_id()+"," + s.getCategory_id()+ ","+s.getSession_id()+")";
+            String sql = "INSERT INTO `formation`( `nom`, `description`, `price`, `place`, `nb_heur`, `discount`, `niveau_id`, `category_id`) "
+                    + "VALUES ('" + s.getNom() + "',\"" + s.getDescription()+"\",'" + s.getPrice()+"'," + s.getPlaces()+"," + s.getNbr_heurs()+"," + s.getDiscount()+"," + s.getNiveau_id()+"," + s.getCategory_id()+ ")";
 
             int rs = stmt.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
             ResultSet res = stmt.getGeneratedKeys();
@@ -145,8 +142,7 @@ public class formationDaoDB implements formationDAO {
         }
         return -1;
     }
- 
-    
+
     public boolean takePlace(int id) {
         try {
             ArrayList<formation> list = new ArrayList<>();
@@ -166,8 +162,7 @@ public class formationDaoDB implements formationDAO {
                         rs.getInt("nb_heur"),
                         rs.getInt("id"),
                         rs.getInt("niveau_id"),
-                        rs.getInt("category_id"),
-                        rs.getInt("session_id")
+                        rs.getInt("category_id")
                 );
                 int p=f.getPlaces()-1;
                 String sql1 = "UPDATE `formation` SET `place`="+p+" where id="+id;
@@ -182,5 +177,27 @@ public class formationDaoDB implements formationDAO {
         }
         return false;
     }
+    
+    public boolean deleteformation(int id) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="DELETE FROM `formation` WHERE id="+id;
+            
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
+    }
+    
     
 }

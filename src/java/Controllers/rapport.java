@@ -68,7 +68,7 @@ public class rapport extends HttpServlet {
         if(id!=null){
             formation_id=Integer.parseInt(id);
             factureDB db=new factureDB();
-            ArrayList<facture> list_facture=db.findAll(formation_id);
+            ArrayList<facture> list_facture=db.findByFormationId(formation_id);
             ArrayList<user> list_inscri=new ArrayList<>();
             userBd user_db=new userBd();
             for (int i = 0; i < list_facture.size(); i++) {

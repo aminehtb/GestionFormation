@@ -73,8 +73,45 @@ public class home_admin extends HttpServlet {
             if(type!=null && id !=null && action!=null){
                 //delete
                 if(action.equals("delete")){
-                    
-                   // ========= to complete ========== //
+                    if(type.equals("ses")){
+                        //delete session
+                        sessionDB db=new sessionDB();
+                        db.deleteSession(Integer.parseInt(id));
+                        
+                        
+                    }
+                    else if(type.equals("cat")){
+                        //delete category
+                        categoryDB db=new categoryDB();
+                        db.deleteCategory(Integer.parseInt(id));
+                        
+                        
+                    }else if(type.equals("for")){
+                        //delete formation
+                        formationDaoDB db=new formationDaoDB();
+                        db.deleteformation(Integer.parseInt(id));
+                        
+                    }
+                }else if(action.equals("edit")){
+                    if(type.equals("ses")){
+                        //update session
+                        
+                        response.sendRedirect("addSession?id="+id);
+                        return;
+                        
+                    }
+                    else if(type.equals("cat")){
+                        //delete category
+                        response.sendRedirect("addCategory?id="+id);
+                        return;
+                        
+                        
+                    }else if(type.equals("for")){
+                        //delete formation
+                        formationDaoDB db=new formationDaoDB();
+                        db.deleteformation(Integer.parseInt(id));
+                        
+                    }
                 }
             }
             formationDaoDB db = new formationDaoDB();
@@ -83,7 +120,7 @@ public class home_admin extends HttpServlet {
             request.setAttribute("formations", formations);
             request.setAttribute("categories", new categoryDB().findAll());
             request.setAttribute("sessions", new sessionDB().findAll());
-            request.getRequestDispatcher("admin/listFormation.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/home.jsp").forward(request, response);
         } else {
             response.sendRedirect("admin");
         }

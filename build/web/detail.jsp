@@ -131,9 +131,12 @@
 
                             <div class="quantity-container info-container">
                                 <div class="row">
-                                    
-                                        <a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
-                                
+                                    <c:if test="${in_panier}">
+                                        <a href="detail?pk=${obj.getId()}&action=cart" class="btn btn-primary" disabled="true"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
+                                    </c:if>
+                                    <c:if test="${not in_panier}">
+                                    <a href="detail?pk=${obj.getId()}&action=cart" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
+                                    </c:if>
 
                                     
                                 </div><!-- /.row -->

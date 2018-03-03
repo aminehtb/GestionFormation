@@ -6,24 +6,25 @@
 package Controllers;
 
 import connection.categoryDB;
-import connection.niveauDB;
 import connection.sessionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.admins;
+import models.category;
 import models.session;
 
 /**
  *
  * @author amine
  */
-@WebServlet(name = "addSession", urlPatterns = {"/addSession"})
-public class addSession extends HttpServlet {
+@WebServlet(name = "addCategory", urlPatterns = {"/addCategory"})
+public class addCategory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class addSession extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addSession</title>");            
+            out.println("<title>Servlet addCategory</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet addSession at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet addCategory at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,13 +66,13 @@ public class addSession extends HttpServlet {
             throws ServletException, IOException {
         admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
-            if(request.getParameter("id")!=null){
-                sessionDB db=new sessionDB();
-                session s=db.findSessionById(Integer.parseInt(request.getParameter("id")));
-                request.setAttribute("session", s);
+             if(request.getParameter("id")!=null){
+                categoryDB db=new categoryDB();
+                category c=db.findCategoryById(Integer.parseInt(request.getParameter("id")));
+                request.setAttribute("category", c);
                 
             }
-            request.getRequestDispatcher("admin/addSession.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addCategory.jsp").forward(request, response);
         } else {
             response.sendRedirect("admin");
         }
@@ -88,21 +89,19 @@ public class addSession extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         admins a = (admins) request.getSession().getAttribute("admin");
+        admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
             
             String nom= request.getParameter("name");
-            String date= request.getParameter("date");
             String id= request.getParameter("id");
-            System.out.println("Controllers.addSession.doPost() "+id);
+            category c=new category(nom);
 
-            sessionDB db=new sessionDB();
-            session s=new session(nom, date);
-            
+            categoryDB db=new categoryDB();
             if(!id.equals("")){
-                db.updateSession(Integer.parseInt(id), s);
+                db.updateCategory(Integer.parseInt(id), c);
             }else
-                db.addNewSession(s);
+                db.addNewCategory(c);
+            
             
             response.sendRedirect("adminHome");
         }else {

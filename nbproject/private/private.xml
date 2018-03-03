@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/adminDB.java</file>
-            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/admin.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/keywordsDb.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/formationSessionDB.java</file>
             <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/home_admin.java</file>
             <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/home.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/listfacture.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/listformation.java</file>
+            <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/connection/formationDaoDB.java</file>
             <file>file:/home/amine/NetBeansProjects/GestionFormation/src/java/Controllers/add.java</file>
         </group>
     </open-files>

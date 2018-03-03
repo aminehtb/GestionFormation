@@ -7,6 +7,7 @@ package Controllers;
 
 import connection.categoryDB;
 import connection.formationDaoDB;
+import connection.formationSessionDB;
 import connection.keywordsDb;
 import connection.niveauDB;
 import connection.programDB;
@@ -87,9 +88,11 @@ public class add extends HttpServlet {
             sessionDB session_db = new sessionDB();
             categoryDB category_db = new categoryDB();
             niveauDB niveau_db = new niveauDB();
+            keywordsDb kdb = new keywordsDb();
             request.setAttribute("sessions", session_db.findAll());
             request.setAttribute("categories", category_db.findAll());
             request.setAttribute("niveaus", niveau_db.findAll());
+            request.setAttribute("keywords", kdb.findAll());
             request.getRequestDispatcher("admin/add.jsp").forward(request, response);
         } else {
             response.sendRedirect("admin");
@@ -101,6 +104,8 @@ public class add extends HttpServlet {
             throws ServletException, IOException {
         //get data from 1 then create the formation
         //takes you to fill an keyword list which
+        
+        //System.out.println(""+request.getParameterMap().get("session").length);
         admins a = (admins) request.getSession().getAttribute("admin");
         if (a != null) {
             String loc = request.getParameter("location");
@@ -134,12 +139,19 @@ public class add extends HttpServlet {
                 f.setPlaces(Integer.parseInt(map.get("places")[0]));
                 f.setCategory_id(Integer.parseInt(map.get("category")[0]));
                 f.setNiveau_id(Integer.parseInt(map.get("niveau")[0]));
-                f.setSession_id(Integer.parseInt(map.get("session")[0]));
                 if (request.getServletContext().getAttribute("formation_id")==null) {
                     idx = fdb.addNewFormation(f);
                 }
                 if (idx != -1) {
                     f.setId(idx);
+                    // add formation to sessions
+                    formationSessionDB fsDB=new formationSessionDB();
+                    for (int i = 0; i < map.get("session").length; i++) {
+                        int session_id=Integer.parseInt(map.get("session")[i]);
+                        fsDB.addFormationToSession(idx,session_id);
+                        
+                    }
+                    
                     request.getServletContext().setAttribute("formation_id", f.getId());
                     request.setAttribute("place", "program");
                     this.doGet(request, response);
@@ -150,7 +162,7 @@ public class add extends HttpServlet {
             } else if (loc.equals("program")) {
                 System.out.println("list Program" + pdb.findProgramByFormationId(idx));
                 if (request.getParameter("submit").equals("single")) {
-                    program p = new program(request.getParameter("nom"), request.getParameter("du"), request.getParameter("du"), request.getParameter("tache"), idx);
+                    program p = new program(request.getParameter("nom"), request.getParameter("du"), request.getParameter("au"), request.getParameter("tache"), idx);
                     pdb.addNewProgram(p);
                     request.setAttribute("place", "program");
                 }
@@ -163,18 +175,31 @@ public class add extends HttpServlet {
                 request.getServletContext().setAttribute("formation_id", idx);
                 this.doGet(request, response);
             } else if (loc.equals("keyword")) {
-                System.out.println("from inside keyword iff " + request.getParameter("keys"));
-                String[] keywords = request.getParameter("keys").split(",");
-                for (String keyword : keywords) {
-                    //add keyword
-                    keywords k = new keywords(keyword, idx);
-                    kdb.addNewKeyword(k);
-                }
                 
-                request.getServletContext().removeAttribute("formation_id");
-                System.out.println("after remove :"+request.getServletContext().getAttribute("formation_id") );
-                //send bak to admin 
-                response.sendRedirect("adminHome");
+                Map<String, String[]> map = request.getParameterMap();
+                if(request.getParameter("action").equals("add keyword")){
+                    System.out.println("add new keyword");
+                    keywords k = new keywords(map.get("new_key")[0], idx);
+                    kdb.addNewKeyword(k);
+                    request.setAttribute("place", "keyword");
+                    this.doGet(request, response);
+                }
+                if(request.getParameter("action").equals("next")){
+                    if(map.get("keywords").length!=0){
+                        for (int i = 0; i < map.get("keywords").length; i++) {
+                            
+                            int k_id=Integer.parseInt(map.get("keywords")[i]);
+                            kdb.addExistKeyword(k_id, idx);
+                        }
+                    }
+                    //test if something is selected and something in newkey
+                    // then return to samepage 
+
+                    request.getServletContext().removeAttribute("formation_id");
+                    System.out.println("after remove :"+request.getServletContext().getAttribute("formation_id") );
+                    //send bak to admin 
+                    response.sendRedirect("adminHome");
+                }
             }
 
         } else {

@@ -13,12 +13,12 @@ public class formation {
 
     private String nom, description, price ;
     private int nbr_heurs,places,discount;
-    private int id, niveau_id, category_id, session_id;
+    private int id, niveau_id, category_id;
 
     public formation() {
     }
 
-    public formation(String nom, String description, String price, int discount, int places, int nbr_heurs, int id, int niveau_id, int category_id, int session_id) {
+    public formation(String nom, String description, String price, int discount, int places, int nbr_heurs, int id, int niveau_id, int category_id) {
         this.nom = nom;
         this.description = description;
         this.price = price;
@@ -28,10 +28,9 @@ public class formation {
         this.id = id;
         this.niveau_id = niveau_id;
         this.category_id = category_id;
-        this.session_id = session_id;
     }
 
-    public formation(String nom, String description, String price, int discount, int places, int nbr_heurs, int niveau_id, int category_id, int session_id) {
+    public formation(String nom, String description, String price, int discount, int places, int nbr_heurs, int niveau_id, int category_id) {
         this.nom = nom;
         this.description = description;
         this.price = price;
@@ -40,7 +39,6 @@ public class formation {
         this.nbr_heurs = nbr_heurs;
         this.niveau_id = niveau_id;
         this.category_id = category_id;
-        this.session_id = session_id;
     }
 
     public String getNom() {
@@ -115,19 +113,13 @@ public class formation {
         this.category_id = category_id;
     }
 
-    public int getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(int session_id) {
-        this.session_id = session_id;
-    }
+  
 
 
 
     @Override
     public String toString() {
-        return "formation{" + "nom=" + nom + ", description=" + description + ", price=" + price + ", discount=" + discount + ", places=" + places + ", nbr_heurs=" + nbr_heurs + ", id=" + id + ", niveau_id=" + niveau_id + ", category_id=" + category_id + ", session_id=" + session_id  + '}';
+        return "formation{" + "nom=" + nom + ", description=" + description + ", price=" + price + ", discount=" + discount + ", places=" + places + ", nbr_heurs=" + nbr_heurs + ", id=" + id + ", niveau_id=" + niveau_id + ", category_id=" + category_id +"}";
     }
 
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.category;
+import models.session;
 
 /**
  *
@@ -43,6 +44,46 @@ public class categoryDB {
         }
         return null;
     }
+    
+    public boolean addNewCategory(category cat) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql = "INSERT INTO `category`(`nom`) VALUES ('" + cat.getNom() + "')";
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
+    }
+    
+        public category findCategoryById(int id){
+         try {
+            
+            c=maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="SELECT * FROM category where id="+id;
+            ResultSet rs = stmt.executeQuery(sql);
+      
+            if(rs.next()){
+                return new category(rs.getInt("id"), rs.getString("nom"));
+               
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"msg !");
+        }
+        return null;
+    }
     public int findCategoryId(String nom){
          try {
             
@@ -62,4 +103,47 @@ public class categoryDB {
         }
         return -1;
     }
+    
+    public boolean updateCategory(int id,category s) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="UPDATE `category` SET `nom`='" + s.getNom()+ "' WHERE id="+id;
+            
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
+    }
+    
+    public boolean deleteCategory(int id) {
+        try {
+
+            c = maConnection.getInstance();
+            stmt = c.createStatement();
+            String sql="DELETE FROM `category` WHERE id="+id;
+            
+
+            int rs = stmt.executeUpdate(sql);
+
+            if (rs != 0) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(userBd.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "msg !");
+        }
+        return false;
+    }
+    
 }

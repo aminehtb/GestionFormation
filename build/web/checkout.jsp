@@ -63,13 +63,20 @@
 			</thead><!-- /thead -->
 			<tfoot>
 				<tr>
+
 					<td colspan="7">
 						<div class="shopping-cart-btn">
 							<span class="">
 								<a href="home" class="btn btn-upper btn-primary pull-right outer-right-xs">Continue Shopping</a>
 							</span>
 						</div><!-- /.shopping-cart-btn -->
+						<div class="shopping-cart-btn">
+							<span class="">
+								<a href="checkout?action=all" class="btn btn-upper btn-primary pull-right outer-right-xs">Pay All</a>
+							</span>
+						</div><!-- /.shopping-cart-btn -->
 					</td>
+					
 				</tr>
 			</tfoot>
 			<tbody>

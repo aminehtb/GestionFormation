@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                   <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label  >category</label>
                       <select class="form-control" name="category">
                         <c:forEach begin="1" end="${categories.size()}" var="i">
@@ -58,7 +58,7 @@
                         </c:forEach>
                       </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label>niveau</label>
                       <select class="form-control" name="niveau">
                         <c:forEach begin="1" end="${niveaus.size()}" var="i">
@@ -66,15 +66,18 @@
                         </c:forEach>
                       </select>
                     </div>
-                    <div class="col-md-4">
-                      <label>session</label>
-                      <select class="form-control" name="session">
-                        <c:forEach begin="1" end="${sessions.size()}" var="i">
-                          <option value="${sessions.get(i-1).getId()}">${sessions.get(i-1).getNom()}</option>
-                        </c:forEach>
-                      </select>
-                    </div>
+                    
                   </div>
+                </div>
+                <div class="form-group">
+                    <label>session</label>
+                    <select class="form-control" name="session" multiple="true" required>
+                      <c:forEach begin="1" end="${sessions.size()}" var="i">
+                        <option value="${sessions.get(i-1).getId()}">${sessions.get(i-1).getNom()}</option>
+                      </c:forEach>
+                    </select>
+                    
+                  <p class="help-block">Hold Ctrl ( or Comande on Mac ) to select multiple.</p>
                 </div>
                 <button class="btn btn-primary btn-block" type="submit">next</button>
               </form>
@@ -135,13 +138,13 @@
                         </div>
                         </td>
                         <td>
-                        <div class="form-group">
-                              <input class="form-control" type="text" placeholder="tache" name="du">
+                         <div class="form-group">
+                              <input class="form-control  datetimepicker-input datetimepicker" type="text" placeholder="du" name="du">
                         </div>
                         </td>
                         <td>
                         <div class="form-group">
-                              <input class="form-control" type="text" placeholder="tache" name="du">
+                              <input class="form-control datetimepicker-input datetimepicker" type="text" placeholder="au" name="au">
                         </div>
                         </td>
                         <td>
@@ -181,11 +184,30 @@
           <div class="card-body">
             <form method="post">
               <input type="hidden" name="location" value="keyword">
+              
               <div class="form-group">
-                <label >description</label>
-                <textarea class="form-control" name="keys" placeholder="seperate each keyword with comma ," rows="3"></textarea>
+                <div class="form-row">
+                  <div class="col-md-8">
+                    <input type="text" class="form-control" name="new_key" placeholder="add new keyword">   <hr>                
+                  </div>
+
+                  <div class="col-md-4">
+                    <input name="action" class="btn btn-primary btn-block" type="submit" value="add keyword">
+                  </div>
+
+                </div>
+                <div class="form-row">
+
+                    <select class="form-control" name="keywords" multiple="true">
+                      <c:forEach begin="1" end="${keywords.size()}" var="i">
+                        <option value="${keywords.get(i-1).getId()}">${keywords.get(i-1).getMot()}</option>
+                      </c:forEach>
+                    </select>
+
+                </div>
+                <p class="help-block">Hold Ctrl ( or Comande on Mac ) to select multiple.</p>
               </div>
-              <button class="btn btn-primary btn-block" type="submit">next</button>
+              <input class="btn btn-primary btn-block" name="action" type="submit" value="next"/>
             </form>
             <div class="text-center">
             </div>
@@ -200,4 +222,13 @@
       
 
 	<jsp:include page="script.jsp"/>
+
+  
+<!--   <script type="text/javascript">
+    $(function () {
+
+      $(".datetimepicker").datepicker();
+
+    });
+  </script> -->
 </body>
